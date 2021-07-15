@@ -1,18 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float rotationSpeed;
+    [Header("Components")]
+    [SerializeField] private CharacterController controller;
     
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed;
+    
+    [Header("Jump")]
+    [SerializeField] private float jumpHeight;
+
+    [Header("Gravity")]
+    [SerializeField] private float gravityScale = 2f;
+    
+    [Header("Rotation")]
+    [SerializeField] private float rotateSpeed;
+
+    private float gravity;
+
     void Update()
+    {
+        Rotate();
+        Move();
+    }
+
+    private void Rotate()
+    {
+        var horizontal = Input.GetAxis("Mouse X");
+
+        transform.Rotate(Vector3.up, rotateSpeed * horizontal * Time.deltaTime);
+    }
+
+    private void Move()
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
+        var moveDirection = transform.forward * vertical + transform.right * horizontal;
+        
+        if (moveDirection.magnitude > 1f)
+        {
+            moveDirection.Normalize();
+        }
 
-        transform.position += transform.forward * (vertical * speed * Time.deltaTime);
-        transform.Rotate(Vector3.up, horizontal * rotationSpeed * Time.deltaTime);
+        var moveDelta = moveDirection * (moveSpeed * Time.deltaTime);
+
+        if (controller.isGrounded)
+        {
+            gravity = 0;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                gravity = jumpHeight;
+            }
+        }
+        else
+        {
+            gravity += Physics.gravity.y * gravityScale;
+        }
+        
+        moveDelta.y = gravity;
+        
+        controller.Move(moveDelta);
     }
 }
