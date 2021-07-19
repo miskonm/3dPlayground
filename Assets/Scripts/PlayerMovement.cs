@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (controller.isGrounded)
         {
-            gravity = 0;
+            gravity = -0.1f;
 
             if (Input.GetButtonDown("Jump"))
             {
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            gravity += Physics.gravity.y * gravityScale;
+            gravity += Physics.gravity.y * gravityScale * Time.deltaTime;
         }
         
         moveDelta.y = gravity;
