@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -12,19 +13,68 @@ public class Platform : MonoBehaviour
     [SerializeField] private float endPositionDelay;
     [SerializeField] private float toEndPositionMoveTime;
     [SerializeField] private float toStartPositionMoveTime;
+    
+    [Header("Ease")]
+    [SerializeField] private Ease toEndPointEase = Ease.Linear;
+    [SerializeField] private Ease toStartPointEase = Ease.Linear;
+    
 
     private void Start()
     {
         StartAnimation();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (IsPlayer(other))
+        {
+            other.transform.SetParent(transform);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (IsPlayer(other))
+        {
+            other.transform.SetParent(null);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        var startPos = startPosition;
+
+        if (transform.parent != null)
+        {
+            startPos = transform.parent.TransformPoint(startPosition);
+        }
+
+        Gizmos.DrawSphere(startPos, 0.2f);
+        
+        var endPos = endPosition;
+
+        if (transform.parent != null)
+        {
+            endPos = transform.parent.TransformPoint(endPosition);
+        }
+        
+        Gizmos.DrawSphere(endPos, 0.2f);
+        Gizmos.DrawLine(startPos, endPos);
+    }
+
     private void StartAnimation()
     {
-        Sequence sequence = DOTween.Sequence();
+        Sequence sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
         sequence.AppendInterval(startPositionDelay);
-        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime));
+        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime).SetEase(toEndPointEase));
         sequence.AppendInterval(endPositionDelay);
-        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime));
+        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime).SetEase(toStartPointEase));
         sequence.SetLoops(-1);
+    }
+
+    private bool IsPlayer(Collider collider)
+    {
+        return collider.gameObject.CompareTag("Player");
     }
 }
