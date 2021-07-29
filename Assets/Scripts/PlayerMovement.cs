@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Resetting")]
     [SerializeField] private float toStartDuration;
 
+    private Transform cameraTransform;
     private float gravity;
     private Vector3 startPosition;
     private bool isMoving;
@@ -32,11 +34,16 @@ public class PlayerMovement : MonoBehaviour
         isMoving = true;
     }
 
+    private void Start()
+    {
+        cameraTransform = Camera.main.transform;
+    }
+
     void Update()
     {
         if (!isMoving) return;
 
-        Rotate();
+        // Rotate();
         Move();
     }
 
@@ -51,9 +58,23 @@ public class PlayerMovement : MonoBehaviour
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        var moveDirection = transform.forward * vertical + transform.right * horizontal;
 
-        if (moveDirection.magnitude > 1f)
+        var forward = cameraTransform.forward;
+        forward.y = 0;
+        forward.Normalize();
+        
+        var right = cameraTransform.right;
+        right.y = 0;
+        right.Normalize();
+        
+        var moveDirection = forward * vertical + right * horizontal;
+
+        if ((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0)
+        {
+            transform.rotation = Quaternion.LookRotation(moveDirection);
+        }
+
+        if (moveDirection.sqrMagnitude > 1f)
         {
             moveDirection.Normalize();
         }

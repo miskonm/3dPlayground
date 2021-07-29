@@ -6,6 +6,8 @@ public class Room : MonoBehaviour
     [SerializeField] private UnityEvent onToggleOn;
     [SerializeField] private UnityEvent onToggleOff;
     [SerializeField] private bool isToggleOn;
+    [SerializeField] private Transform doorTransform;
+    
     
     private bool isPlayerInRoom;
 
@@ -36,6 +38,7 @@ public class Room : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            AudioManager.Instance.PlaySfx(SfxType.Door, doorTransform);
             ChangeToggle();
         }
     }

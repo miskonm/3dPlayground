@@ -11,6 +11,8 @@ public class Spikes : MonoBehaviour
     [SerializeField] private float endDelay;
     [SerializeField] private Ease startEase = Ease.Linear;
     [SerializeField] private Ease endEase = Ease.Linear;
+    [SerializeField] private AnimationCurve startAnimationCurve;
+    
 
     [Header("Shake")]
     [SerializeField] private float shakeDuration;
@@ -40,6 +42,7 @@ public class Spikes : MonoBehaviour
         sequence.Append(CreateShake());
         sequence.Append(transform.DOLocalMove(endPosition, toEndDuration).SetEase(endEase));
         sequence.AppendInterval(endDelay);
+        // sequence.Append(transform.DOLocalMove(startPosition, toStartDuration).SetEase(startAnimationCurve));
         sequence.Append(transform.DOLocalMove(startPosition, toStartDuration).SetEase(startEase));
         sequence.SetLoops(-1);
     }

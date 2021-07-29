@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour
 
     public void DoDamage()
     {
-        playerMovement.ResetPosition();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // playerMovement.ResetPosition();
     }
 }
