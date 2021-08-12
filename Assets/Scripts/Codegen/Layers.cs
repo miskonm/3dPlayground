@@ -7,4 +7,6 @@ public static class Layers
     const string UI = "UI";
     const string PUSHABLES = "Pushables";
     const string PLAYER = "Player";
+    const string ENEMY = "Enemy";
+    const string PLAYERMELEEWEAPON = "PlayerMeleeWeapon";
 }

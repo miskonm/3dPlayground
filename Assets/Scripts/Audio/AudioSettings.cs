@@ -1,24 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = Tag, menuName = "Audio/AudioSettings")]
 public class AudioSettings : ScriptableObject
 {
-    [Serializable]
-    private class SfxInfo
-    {
-        [HideInInspector]
-        [SerializeField] private string name;
-        public SfxType SfxType;
-        public AudioClip Clip;
-
-        public void OnValidate()
-        {
-            name = SfxType.ToString();
-        }
-    }
-
     private const string Tag = nameof(AudioSettings);
 
     [SerializeField] private SfxInfo[] sfx;
@@ -44,6 +29,11 @@ public class AudioSettings : ScriptableObject
     public AudioClip GetAudioClip(SfxType sfxType)
     {
         return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType].Clip : null;
+    }
+    
+    public SfxInfo GetSfxInfo(SfxType sfxType)
+    {
+        return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType] : null;
     }
 
     private void FillMap()

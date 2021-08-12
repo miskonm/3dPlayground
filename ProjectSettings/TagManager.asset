@@ -15,8 +15,8 @@ TagManager:
   - UI
   - Pushables
   - Player
-  - 
-  - 
+  - Enemy
+  - PlayerMeleeWeapon
   - 
   - 
   - 

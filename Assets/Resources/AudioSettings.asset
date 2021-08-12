@@ -16,9 +16,15 @@ MonoBehaviour:
   - name: Death
     SfxType: 0
     Clip: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
+    Volume: 1
+    Pitch: 1
   - name: Jump
     SfxType: 1
     Clip: {fileID: 8300000, guid: 0b93f9af63befa2478916a5396131fff, type: 3}
+    Volume: 0.7
+    Pitch: 0.7
   - name: Door
     SfxType: 2
     Clip: {fileID: 8300000, guid: a235d590ef2a04d1b85b61ef4c21337c, type: 3}
+    Volume: 0.5
+    Pitch: 1

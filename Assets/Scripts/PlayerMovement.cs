@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Resetting")]
     [SerializeField] private float toStartDuration;
 
+    [SerializeField] private Animator animator;
+
     private Transform cameraTransform;
     private float gravity;
     private Vector3 startPosition;
@@ -69,10 +71,15 @@ public class PlayerMovement : MonoBehaviour
         
         var moveDirection = forward * vertical + right * horizontal;
 
-        if ((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0)
+        var isRunning = IsRunning();
+        if (isRunning)
         {
             transform.rotation = Quaternion.LookRotation(moveDirection);
+            // animator.SetFloat("Vertical", vertical);
+            // animator.SetFloat("Horizontal", horizontal);
         }
+
+        animator.SetBool("IsRunning", isRunning);
 
         if (moveDirection.sqrMagnitude > 1f)
         {
@@ -88,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 gravity = jumpHeight;
+                animator.SetTrigger("Jump");
             }
         }
         else
@@ -97,7 +105,29 @@ public class PlayerMovement : MonoBehaviour
 
         moveDelta.y = gravity;
 
+        var animationGravity = 0;
+
+        if (gravity > 0)
+        {
+            animationGravity = 1;
+        }
+        else if (gravity < -0.25f)
+        {
+            animationGravity = -1;
+        }
+        else
+        {
+            animationGravity = 0;
+        }
+        
+        animator.SetInteger("Gravity", animationGravity);
+
         controller.Move(moveDelta);
+
+        bool IsRunning()
+        {
+            return Mathf.Abs(horizontal) + Mathf.Abs(vertical) > 0;
+        }
     }
 
     public void ResetPosition()
