@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject bulletPrefab;
+
     private PlayerMovement playerMovement;
 
     private void Awake()

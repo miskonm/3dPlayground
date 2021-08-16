@@ -7,6 +7,8 @@ namespace Playground.Game
     public class MenuView : MonoBehaviour
     {
         [SerializeField] private Button playButton;
+        [SerializeField] private SceneLoader sceneLoader;
+        
 
         private void Awake()
         {
@@ -15,7 +17,7 @@ namespace Playground.Game
 
         private void PlayButtonClicked()
         {
-            SceneManager.LoadScene("LoadingScene");
+            sceneLoader.LoadAsync("LoadingScene");
         }
     }
 }
