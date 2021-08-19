@@ -1,17 +1,17 @@
-using System;
 using System.Collections;
+using Playground.Game;
 using UnityEngine;
 
 namespace Playground
 {
     public class LoadingService : MonoBehaviour
     {
-        [SerializeField] private SceneLoader sceneLoader;
+        [SerializeField] private LevelLoader levelLoader;
         [SerializeField] private float minLoadingTime = 2f;
 
         private void Start()
         {
-            sceneLoader.LoadAsync("Level1", false);
+            levelLoader.LoadGameLevel(false);
             StartCoroutine(StartSceneAfterDelay());
         }
 
@@ -19,7 +19,7 @@ namespace Playground
         {
             yield return new WaitForSeconds(minLoadingTime);
 
-            sceneLoader.AllowSceneActivation();
+            levelLoader.AllowSceneActivation();
         }
     }
 }

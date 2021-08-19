@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private LevelLoader levelLoader;
+    
     private readonly List<Coin> allCoins = new List<Coin>();
 
     public void RegisterCoin(Coin coin)
@@ -14,8 +16,11 @@ public class LevelManager : MonoBehaviour
 
     public void DeregisterCoin(Coin coin)
     {
-        if (allCoins.Remove(coin))
-            CheckEndLevel();
+        if (!allCoins.Remove(coin))
+            return;
+
+        AddCoinsToUser(coin);
+        CheckEndLevel();
     }
 
     private void CheckEndLevel()
@@ -26,6 +31,13 @@ public class LevelManager : MonoBehaviour
 
     private void EndLevel()
     {
-        Debug.LogError($"Level completed!");
+        UserDataService.Instance.IncrementLevelCompleted();
+        
+        levelLoader.LoadGameLevel();
+    }
+
+    private void AddCoinsToUser(Coin coin)
+    {
+        UserDataService.Instance.AddCoins(coin.Cost);
     }
 }

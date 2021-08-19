@@ -4,7 +4,11 @@ namespace Playground.Game
 {
     public class Coin : MonoBehaviour
     {
+        [SerializeField] private int cost = 1;
+
         private LevelManager levelManager;
+
+        public int Cost => cost;
 
         private void Awake()
         {

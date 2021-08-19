@@ -6,7 +6,9 @@ namespace Playground.Game
     {
         [SerializeField] private int hp;
         [SerializeField] private Animator animator;
+        [SerializeField] private int moneyForKill = 3;
 
+        [Header("FOR DEBUG")]
         [SerializeField]
         private int currentHp;
 
@@ -32,6 +34,7 @@ namespace Playground.Game
 
         private void KillSelf()
         {
+            UserDataService.Instance.AddMoney(moneyForKill);
             Destroy(gameObject);
         }
     }

@@ -1,13 +1,22 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Playground.Game
 {
     public class LevelLoader : MonoBehaviour
     {
-        public void LoadNextLevel()
+        [SerializeField] private SceneLoader sceneLoader;
+
+        public void LoadGameLevel(bool allowSceneActivation = true)
         {
-            SceneManager.LoadScene("Level1");
+            var numberOfLevelCompleted = UserDataService.Instance.GetLevelCompletedCount();
+            var sceneName = numberOfLevelCompleted < 4 ? "Level1" : "Level2";
+
+            sceneLoader.LoadAsync(sceneName, allowSceneActivation);
+        }
+
+        public void AllowSceneActivation()
+        {
+            sceneLoader.AllowSceneActivation();
         }
     }
 }

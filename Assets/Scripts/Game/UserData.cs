@@ -8,9 +8,6 @@ namespace Playground.Game
     {
         public int coins;
         public int money;
-        private int lifes;
-
-        public void IncrementLifes() => lifes++;
-        public int GetLifes() => lifes;
+        public int numbersOfLevelCompleted;
     }
 }
