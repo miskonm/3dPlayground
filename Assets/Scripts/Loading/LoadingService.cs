@@ -1,13 +1,21 @@
 using System.Collections;
 using Playground.Game;
 using UnityEngine;
+using Zenject;
 
 namespace Playground
 {
     public class LoadingService : MonoBehaviour
     {
-        [SerializeField] private LevelLoader levelLoader;
         [SerializeField] private float minLoadingTime = 2f;
+
+        private LevelLoader levelLoader;
+
+        [Inject]
+        public void Construct(LevelLoader levelLoader)
+        {
+            this.levelLoader = levelLoader;
+        }
 
         private void Start()
         {

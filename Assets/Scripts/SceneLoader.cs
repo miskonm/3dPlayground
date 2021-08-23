@@ -9,6 +9,7 @@ namespace Playground
         private AsyncOperation loadScene;
 
         private bool allowSceneActivation;
+
         public void Load(string sceneName)
         {
             SceneManager.LoadScene(sceneName);
@@ -31,7 +32,6 @@ namespace Playground
 
             while (!loadScene.isDone)
             {
-                
                 yield return null;
             }
 

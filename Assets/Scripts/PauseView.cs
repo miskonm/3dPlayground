@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class PauseView : MonoBehaviour
 {
@@ -11,7 +12,15 @@ public class PauseView : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
 
+    private AudioManager audioManager;
+
     private Tweener tweener;
+
+    [Inject]
+    public void Construct(AudioManager audioManager)
+    {
+        this.audioManager = audioManager;
+    }
 
     private void Awake()
     {
@@ -21,11 +30,11 @@ public class PauseView : MonoBehaviour
 
     private void Update()
     {
-        AudioManager.Instance.SetMusicVolume(musicSlider.value);
-        musicSlider.value = AudioManager.Instance.MusicVolume;
+        audioManager.SetMusicVolume(musicSlider.value);
+        musicSlider.value = audioManager.MusicVolume;
 
-        AudioManager.Instance.SetSfxVolume(sfxSlider.value);
-        sfxSlider.value = AudioManager.Instance.SfxVolume;
+        audioManager.SetSfxVolume(sfxSlider.value);
+        sfxSlider.value = audioManager.SfxVolume;
     }
 
     public void Show()

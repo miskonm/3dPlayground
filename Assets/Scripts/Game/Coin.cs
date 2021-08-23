@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Playground.Game
 {
@@ -10,9 +11,10 @@ namespace Playground.Game
 
         public int Cost => cost;
 
-        private void Awake()
+        [Inject]
+        public void Construct(LevelManager levelManager)
         {
-            levelManager = FindObjectOfType<LevelManager>();
+            this.levelManager = levelManager;
         }
 
         private void OnEnable()

@@ -1,13 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class PauseService : MonoBehaviour
 {
-    public PauseView pauseView;
-    
-    private bool isPause;
+    private PauseView pauseView;
+
+    public bool IsPause { get; private set; }
+
+    [Inject]
+    public void Construct(PauseView pauseView)
+    {
+        this.pauseView = pauseView;
+    }
 
     private void Update()
     {
@@ -19,11 +23,11 @@ public class PauseService : MonoBehaviour
 
     private void TogglePause()
     {
-        isPause = !isPause;
+        IsPause = !IsPause;
 
-        Time.timeScale = isPause ? 0 : 1;
+        Time.timeScale = IsPause ? 0 : 1;
 
-        if (isPause)
+        if (IsPause)
         {
             pauseView.Show();
         }

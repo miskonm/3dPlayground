@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 public class Room : MonoBehaviour
 {
@@ -7,8 +8,15 @@ public class Room : MonoBehaviour
     [SerializeField] private UnityEvent onToggleOff;
     [SerializeField] private bool isToggleOn;
     [SerializeField] private Transform doorTransform;
-    
-    
+
+    private AudioManager audioManager;
+
+    [Inject]
+    public void Construct(AudioManager audioManager)
+    {
+        this.audioManager = audioManager;
+    }
+
     private bool isPlayerInRoom;
 
     private void Awake()
@@ -34,11 +42,11 @@ public class Room : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlayerInRoom) return; 
-        
+        if (!isPlayerInRoom) return;
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            AudioManager.Instance.PlaySfx(SfxType.Door, doorTransform);
+            audioManager.PlaySfx(SfxType.Door, doorTransform);
             ChangeToggle();
         }
     }

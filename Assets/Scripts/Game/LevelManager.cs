@@ -1,16 +1,20 @@
 using System.Collections.Generic;
 using Playground.Game;
-using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager
 {
-    [SerializeField] private LevelLoader levelLoader;
-    
+    private readonly LevelLoader levelLoader;
+
     private readonly List<Coin> allCoins = new List<Coin>();
+
+    public LevelManager(LevelLoader levelLoader)
+    {
+        this.levelLoader = levelLoader;
+    }
 
     public void RegisterCoin(Coin coin)
     {
-        if(!allCoins.Contains(coin))
+        if (!allCoins.Contains(coin))
             allCoins.Add(coin);
     }
 
@@ -32,7 +36,7 @@ public class LevelManager : MonoBehaviour
     private void EndLevel()
     {
         UserDataService.Instance.IncrementLevelCompleted();
-        
+
         levelLoader.LoadGameLevel();
     }
 

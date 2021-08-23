@@ -2,26 +2,27 @@ using System.Collections.Generic;
 using Audio;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioSource bgmSource;
-    [SerializeField] private AudioSettings audioSettings;
 
     [Header("DEBUG")]
     [SerializeField] private SfxType debugSfxType;
     [SerializeField] private Transform debugTransform;
 
-    private readonly List<GameAudioSource> sfxSources = new List<GameAudioSource>();
+    private AudioSettings audioSettings;
 
-    public static AudioManager Instance { get; private set; }
+    private readonly List<GameAudioSource> sfxSources = new List<GameAudioSource>();
 
     public float MusicVolume => bgmSource.volume;
     public float SfxVolume { get; private set; } = 1f;
 
-    private void Awake()
+    [Inject]
+    public void Construct(AudioSettings audioSettings)
     {
-        Instance = this;
+        this.audioSettings = audioSettings;
     }
 
     [Button()]
@@ -59,7 +60,7 @@ public class AudioManager : MonoBehaviour
 
             return;
         }
-        
+
         var audioSource = CreateAudioSource(transform);
         SetupAudioSource(audioSource, audioSettings.GetSfxInfo(sfxType));
     }
