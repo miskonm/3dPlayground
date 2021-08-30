@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,10 +12,12 @@ namespace Playground.Game
         [SerializeField] private Text levelsCompletedLabel;
 
         private SceneLoader sceneLoader;
+        private UserDataService userDataService;
 
         [Inject]
-        public void Construct(SceneLoader sceneLoader)
+        public void Construct(SceneLoader sceneLoader, UserDataService userDataService)
         {
+            this.userDataService = userDataService;
             this.sceneLoader = sceneLoader;
         }
 
@@ -34,9 +35,9 @@ namespace Playground.Game
 
         private void UpdateLabels()
         {
-            coinsLabel.text = $"Coins: {UserDataService.Instance.GetCoins()}";
-            moneyLabel.text = $"Money: {UserDataService.Instance.GetMoney()}";
-            levelsCompletedLabel.text = $"Level Completed: {UserDataService.Instance.GetLevelCompletedCount()}";
+            coinsLabel.text = $"Coins: {userDataService.GetCoins()}";
+            moneyLabel.text = $"Money: {userDataService.GetMoney()}";
+            levelsCompletedLabel.text = $"Level Completed: {userDataService.GetLevelCompletedCount()}";
         }
     }
 }

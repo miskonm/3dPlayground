@@ -15,6 +15,17 @@ namespace Playground
     {
         private B b;
 
+        public A()
+        {
+            
+        }
+
+        public A(B b)
+        {
+            this.b = b;
+        }
+        
+
         public void Setup(B b)
         {
             this.b = b;

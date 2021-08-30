@@ -6,6 +6,9 @@ namespace Playground
     {
         public override void InstallBindings()
         {
+            // Container.Bind<SignalBus>().AsSingle().NonLazy();
+            SignalBusInstaller.Install(Container);
+            
             Container.Bind<LevelManager>().AsSingle().NonLazy();
             Container.Bind<PauseService>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
         }

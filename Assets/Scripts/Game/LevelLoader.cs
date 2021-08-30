@@ -1,21 +1,21 @@
-using UnityEngine;
-
 namespace Playground.Game
 {
     public class LevelLoader
     {
         private readonly SceneLoader sceneLoader;
+        private readonly UserDataService userDataService;
 
-        public LevelLoader(SceneLoader sceneLoader)
+        public LevelLoader(SceneLoader sceneLoader, UserDataService userDataService)
         {
             this.sceneLoader = sceneLoader;
+            this.userDataService = userDataService;
         }
 
         public void LoadGameLevel(bool allowSceneActivation = true)
         {
-            var numberOfLevelCompleted = UserDataService.Instance.GetLevelCompletedCount();
-            // var sceneName = numberOfLevelCompleted < 4 ? "Level1" : "Level2";
-            var sceneName = "Level1";
+            // var numberOfLevelCompleted = userDataService.GetLevelCompletedCount();
+            // var sceneName = numberOfLevelCompleted < 4 ? SceneNames.Level1 : SceneNames.Level2;
+            var sceneName = SceneNames.Level1;
 
             sceneLoader.LoadAsync(sceneName, allowSceneActivation);
         }

@@ -15,21 +15,16 @@ public class Player : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<Coin>(out var coin))
-            coin.Collect();
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
             Attack();
     }
 
-    private void Attack()
+    private void OnTriggerEnter(Collider other)
     {
-        animator.SetTrigger("Attack");
+        if (other.TryGetComponent<Coin>(out var coin))
+            coin.Collect();
     }
 
     public void DoDamage()
@@ -37,5 +32,10 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         // playerMovement.ResetPosition();
+    }
+
+    private void Attack()
+    {
+        animator.SetTrigger("Attack");
     }
 }

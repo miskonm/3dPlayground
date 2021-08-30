@@ -4,12 +4,14 @@ using Playground.Game;
 public class LevelManager
 {
     private readonly LevelLoader levelLoader;
+    private readonly UserDataService userDataService;
 
     private readonly List<Coin> allCoins = new List<Coin>();
 
-    public LevelManager(LevelLoader levelLoader)
+    public LevelManager(LevelLoader levelLoader, UserDataService userDataService)
     {
         this.levelLoader = levelLoader;
+        this.userDataService = userDataService;
     }
 
     public void RegisterCoin(Coin coin)
@@ -35,13 +37,13 @@ public class LevelManager
 
     private void EndLevel()
     {
-        UserDataService.Instance.IncrementLevelCompleted();
+        userDataService.IncrementLevelCompleted();
 
         levelLoader.LoadGameLevel();
     }
 
     private void AddCoinsToUser(Coin coin)
     {
-        UserDataService.Instance.AddCoins(coin.Cost);
+        userDataService.AddCoins(coin.Cost);
     }
 }

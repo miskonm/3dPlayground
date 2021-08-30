@@ -30,7 +30,7 @@ namespace Playground
             loadScene = SceneManager.LoadSceneAsync(sceneName);
             loadScene.allowSceneActivation = allowSceneActivation;
 
-            while (!loadScene.isDone)
+            while (loadScene != null && !loadScene.isDone)
             {
                 yield return null;
             }

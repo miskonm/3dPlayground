@@ -1,100 +1,54 @@
-using System;
 using System.IO;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Playground.Game
 {
-    public class UserDataService : MonoBehaviour
+    public class UserDataService 
     {
         private const string Tag = nameof(UserDataService);
-        private const string PrefsKey = "UserData";
+        private const string UserDataFileName = "UserData.txt";
+
+        private readonly IFileIO fileIO;
         
-        [SerializeField] private UserData userData;
+        private UserData userData;
 
-        private IFileIO fileIO;
-
-        private static UserDataService instance;
-
-        public static UserDataService Instance
+        public UserDataService(IFileIO fileIO)
         {
-            get
-            {
-                if (instance != null)
-                    return instance;
-
-                var go = new GameObject(Tag);
-                var service = go.AddComponent<UserDataService>();
-
-                DontDestroyOnLoad(go);
-
-                instance = service;
-
-                return instance;
-            }
+            this.fileIO = fileIO;
         }
 
-        private void Awake()
-        {
-            fileIO = new JsonFileIO();
+        public void Save() => 
+                fileIO.Write(GetFullPath(), userData);
 
-            Load();
-            
-            if (instance != null)
-                return;
-        }
-
-        private void OnDisable()
-        {
-            Save();
-            
-            Debug.LogError($"SAVE");
-        }
-
-        [Button()]
-        public void Save()
-        {
-            var path = GetFullPath();
-
-            fileIO.Write(path, userData);
-        }
-
-        [Button()]
         public void Load()
         {
             userData = fileIO.Read<UserData>(GetFullPath());
 
-            if (userData == default)
-            {
+            if (userData == null)
                 SetDefaultUserData();
-            }
         }
 
-        public void AddCoins(int coinCost) => userData.coins += coinCost;
+        public void AddCoins(int coinCost) => 
+                userData.coins += coinCost;
 
-        public int GetCoins() => userData.coins;
+        public int GetCoins() => 
+                userData.coins;
 
-        public void AddMoney(int money)
-        {
-            userData.money += money;
-        }
+        public void AddMoney(int money) => 
+                userData.money += money;
 
-        public int GetMoney()
-        {
-            return userData.money;
-        }
+        public int GetMoney() => 
+                userData.money;
 
-        public void IncrementLevelCompleted()
-        {
-            userData.numbersOfLevelCompleted++;
-        }
+        public void IncrementLevelCompleted() => 
+                userData.numbersOfLevelCompleted++;
 
-        public int GetLevelCompletedCount() => userData.numbersOfLevelCompleted;
+        public int GetLevelCompletedCount() => 
+                userData.numbersOfLevelCompleted;
+        
 
-        private string GetFullPath()
-        {
-            return Path.Combine(Application.persistentDataPath, "UserData.txt");
-        }
+        private string GetFullPath() => 
+                Path.Combine(Application.persistentDataPath, UserDataFileName);
 
         private void SetDefaultUserData()
         {
